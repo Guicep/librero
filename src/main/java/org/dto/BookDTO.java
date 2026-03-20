@@ -29,6 +29,15 @@ public class BookDTO {
         return price;
     }
 
+    public String toString() {
+        return this.title + " " + this.price + " " + this.link;
+    }
+
+    /**
+     * Formatea el la cadena para remover y cambiar los caracteres del precio.
+     * @param price cadena a formatear.
+     * @return el <code>double</code> de la cadena a formatear.
+     */
     private double transformPrice(String price) {
         String formatedPrice = price
                 .replace("$", "")
@@ -37,10 +46,10 @@ public class BookDTO {
         return Double.parseDouble(formatedPrice);
     }
 
-    public String toString() {
-        return this.title + " " + this.price + " " + this.link;
-    }
-
+    /**
+     * Devuelve el contenido del libro para insertar en una columna de un CSV.
+     * @return el <code>String</code> con el formato CSV.
+     */
     public String toCSVString() {
         return this.title + "," + this.author + "," + this.price + "," + this.link + "\n";
     }
