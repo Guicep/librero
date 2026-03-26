@@ -1,4 +1,4 @@
-package org.dto;
+package app.dto;
 
 public class BookDTO {
     private String title;

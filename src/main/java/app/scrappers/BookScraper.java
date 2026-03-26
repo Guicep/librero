@@ -1,14 +1,18 @@
-package org.scrappers;
+package app.scrappers;
 
-import org.dto.BookDTO;
+import app.dto.BookDTO;
+import app.utils.Input;
+
 import org.jsoup.Connection.Method;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.utils.Input;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 public abstract class BookScraper {
 
@@ -25,18 +29,31 @@ public abstract class BookScraper {
         boolean booksRemaining;
         String authorFullName = this.formatAuthor(input.getAuthorName(), input.getAuthorSurname());
 
-        System.out.print(this.getScraperName() + " current page: | ");
         do {
             String url = this.getUrl(++page, input);
-            System.out.print(page + " | ");
-            Response response = Jsoup.connect(url).method(Method.GET).execute();
+            Response response = this.connectPage(url);
             Document document = Jsoup.parse(response.body());
             this.fetchBooks(response, document, authorFullName);
             booksRemaining = this.getFinishCondition(document);
         } while (booksRemaining && page != MAX_PAGES);
-        System.out.println();
 
         return this.books;
+    }
+
+    private int delay() {
+        final int MIN_DELAY = 1;
+        final int MAX_DELAY = 3;
+        return ThreadLocalRandom.current().nextInt(MIN_DELAY, MAX_DELAY);
+    }
+
+    protected Response connectPage(String url) throws IOException, InterruptedException {
+        Response result = Jsoup.connect(url).method(Method.GET).execute();
+        TimeUnit.SECONDS.sleep(this.delay());
+        return result;
+    }
+
+    protected Document getPage(String url) throws IOException, InterruptedException {
+        return Jsoup.parse(this.connectPage(url).body());
     }
 
     protected String urlParameters(String parameters) {

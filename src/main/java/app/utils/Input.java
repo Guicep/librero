@@ -1,4 +1,4 @@
-package org.utils;
+package app.utils;
 
 public class Input {
     private String authorName;

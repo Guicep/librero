@@ -1,13 +1,15 @@
-package org.scrappers;
+package app.scrappers;
 
 import java.util.concurrent.TimeUnit;
 
-import org.dto.BookDTO;
+import app.dto.BookDTO;
+import app.utils.Input;
+
 import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.utils.Input;
+
 
 public class AteneoBookScraper extends BookScraper {
 
@@ -28,7 +30,6 @@ public class AteneoBookScraper extends BookScraper {
                 this.books.add(createBook(element, bookAuthor.first().text(), element.select("a[href]").first().attr("href")));
             }
         }
-        TimeUnit.SECONDS.sleep(2);
     }
 
     @Override

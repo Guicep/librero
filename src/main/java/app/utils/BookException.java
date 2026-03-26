@@ -1,4 +1,4 @@
-package org.utils;
+package app.utils;
 
 public class BookException extends Exception {
     public BookException(String message) {

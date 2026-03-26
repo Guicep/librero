@@ -1,14 +1,14 @@
-package org.scrappers;
+package app.scrappers;
 
 import java.util.concurrent.TimeUnit;
 
-import org.dto.BookDTO;
+import app.dto.BookDTO;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.utils.Input;
+import app.utils.Input;
 
 public class CuspideBookScraper extends BookScraper {
 
@@ -25,8 +25,7 @@ public class CuspideBookScraper extends BookScraper {
         }
         Elements links = document.select("div[class^=product-small box] > div > div > a[href]");
         for (Element link : links) {
-            Document doc = Jsoup.connect(link.attr("href")).get();
-            TimeUnit.SECONDS.sleep(2);
+            Document doc = this.getPage(link.attr("href"));
             Elements bookAuthor = doc.select("span > a[href]");
             if (! bookAuthor.isEmpty() && bookAuthor.first().text().matches(".*" + authorFullName + ".*")) {
                 this.books.add(createBook(doc, bookAuthor.first().text(), link.attr("href")));
