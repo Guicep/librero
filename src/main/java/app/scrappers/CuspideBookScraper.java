@@ -23,11 +23,14 @@ public class CuspideBookScraper extends BookScraper {
             String author = (! bookAuthor.isEmpty())? bookAuthor.first().text() : "";
             this.books.add(createBook(document, author, response.url().toString()));
         }
-        Elements links = document.select("div[class^=product-small box] > div > div > a[href]");
-        for (Element link : links) {
-            Document doc = this.getPage(link.attr("href"));
-            Elements bookAuthor = doc.select("span > a[href]");
-            if (! bookAuthor.isEmpty() && bookAuthor.first().text().matches(".*" + authorFullName + ".*")) {
+        Elements items = document.select("div[class^=product-small box]");
+
+        for (Element item : items) {
+            Element link = item.select("div > div > a[href]").first();
+            Element author = item.select("div[class^=box-text] > div > p[class^=author-product-loop] > a[href]").first();
+            if (author != null && author.text().matches(".*" + authorFullName + ".*")) {
+                Document doc = this.getPage(link.attr("href"));
+                Elements bookAuthor = doc.select("span > a[href]");
                 this.books.add(createBook(doc, bookAuthor.first().text(), link.attr("href")));
             }
         }
