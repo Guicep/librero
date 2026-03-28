@@ -47,7 +47,7 @@ public abstract class BookScraper {
     }
 
     protected Response connectPage(String url) throws IOException, InterruptedException {
-        Response result = Jsoup.connect(url).method(Method.GET).execute();
+        Response result = Jsoup.connect(url).method(Method.GET).followRedirects(true).execute();
         TimeUnit.SECONDS.sleep(this.delay());
         return result;
     }

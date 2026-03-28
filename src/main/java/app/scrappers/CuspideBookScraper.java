@@ -23,8 +23,8 @@ public class CuspideBookScraper extends BookScraper {
             String author = (! bookAuthor.isEmpty())? bookAuthor.first().text() : "";
             this.books.add(createBook(document, author, response.url().toString()));
         }
-        Elements items = document.select("div[class^=product-small box]");
 
+        Elements items = document.select("div[class^=product-small box]");
         for (Element item : items) {
             Element link = item.select("div > div > a[href]").first();
             Element author = item.select("div[class^=box-text] > div > p[class^=author-product-loop] > a[href]").first();
@@ -38,7 +38,8 @@ public class CuspideBookScraper extends BookScraper {
 
     @Override
     protected boolean getFinishCondition(Document document) {
-        return ! document.select("i[class$=icon-angle-right]").isEmpty();
+        return document.select("body[class*=single-product]").isEmpty()
+                && ! document.select("i[class$=icon-angle-right]").isEmpty();
     }
 
     @Override

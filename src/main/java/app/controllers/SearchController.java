@@ -4,8 +4,10 @@ import app.dto.BookDTO;
 import app.scrappers.BookScraper;
 import app.scrappers.AteneoBookScraper;
 import app.scrappers.CuspideBookScraper;
+import app.services.SearchService;
 import app.utils.Input;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +18,12 @@ import java.util.ArrayList;
 
 @RestController
 public class SearchController {
+    private SearchService searchService;
 
+    @Autowired
+    public SearchController(SearchService searchService) {
+        this.searchService = searchService;
+    }
     /**
      * Metodo GET que devuelve todos los libros dados los parametros nombre, apellido y titulo de libro de un
      * autor.
@@ -26,24 +33,11 @@ public class SearchController {
      * @throws Exception
      */
     @GetMapping("/search")
-    public ResponseEntity<ArrayList<BookDTO>> searchPage(@RequestParam("name") String authorName,
-                                             @RequestParam("surname") String authorSurname,
-                                             @RequestParam("title") String fullTitle)
-    throws Exception {
-        String searchQuery = String
-                .format("%s %s %s",fullTitle, authorName, authorSurname)
-                .trim()
-                .replaceAll("\\s+", " ");
-
-        if (searchQuery.isEmpty()) {
-            throw new Exception("Query is empty");
-        }
-
-        Input newSearch = new Input(authorName, authorSurname, fullTitle);
-        BookScraper ateneoScraper = new AteneoBookScraper();
-        BookScraper cuspideScraper = new CuspideBookScraper();
-        ArrayList<BookDTO> books = new ArrayList<>(ateneoScraper.getBooks(newSearch));
-        books.addAll(cuspideScraper.getBooks(newSearch));
-        return new ResponseEntity<>(books, HttpStatus.OK);
+    public ResponseEntity<ArrayList<BookDTO>> searchPage(
+            @RequestParam(name = "name", defaultValue = "", required = false) String authorName,
+            @RequestParam(name = "surname", defaultValue = "", required = false) String authorSurname,
+            @RequestParam(name = "title", required = true) String fullTitle
+    ) throws Exception {
+        return new ResponseEntity<>(searchService.searchBooks(authorName, authorSurname, fullTitle), HttpStatus.OK);
     }
 }
