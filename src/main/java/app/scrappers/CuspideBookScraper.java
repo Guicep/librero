@@ -1,10 +1,7 @@
 package app.scrappers;
 
-import java.util.concurrent.TimeUnit;
-
 import app.dto.BookDTO;
 import org.jsoup.Connection.Response;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

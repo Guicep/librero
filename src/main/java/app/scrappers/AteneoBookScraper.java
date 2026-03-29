@@ -1,7 +1,5 @@
 package app.scrappers;
 
-import java.util.concurrent.TimeUnit;
-
 import app.dto.BookDTO;
 import app.utils.Input;
 

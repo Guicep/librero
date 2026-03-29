@@ -18,7 +18,9 @@ public class SearchService {
         String searchQuery = this.formatQuery(authorName, authorSurname, fullTitle);
         Input newSearch = new Input(authorName, authorSurname, searchQuery);
         BookScraper cuspideScraper = new CuspideBookScraper();
+        BookScraper ateneoScraper = new AteneoBookScraper();
         ArrayList<BookDTO> books = new ArrayList<>(cuspideScraper.getBooks(newSearch));
+        books.addAll(ateneoScraper.getBooks(newSearch));
         return books;
     }
 

@@ -1,11 +1,7 @@
 package app.controllers;
 
 import app.dto.BookDTO;
-import app.scrappers.BookScraper;
-import app.scrappers.AteneoBookScraper;
-import app.scrappers.CuspideBookScraper;
 import app.services.SearchService;
-import app.utils.Input;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
