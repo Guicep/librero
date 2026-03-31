@@ -6,6 +6,12 @@ Librero es un recolector web de libros de las librerías de Argentina,
 provee busquedas por titulo del libro y/o por autor del libro, 
 ofreciendo los precios que se puede encontrar online.
 
+### Fuentes de recolección usadas:
+
+Cuspide: https://cuspide.com/
+
+Yenny - El Ateneo: https://yenny-elateneo.com/
+
 ## Instalacion :hammer_and_wrench:
 en progreso...
 
@@ -21,6 +27,11 @@ Y para especificar los parametros:
     `name`: Nombre de autor(Opcional).
     `surname`: Apellido de autor(Opcional).
     `title`: Titulo de la obra(Requerido).
+
+Los parametros **NO** requieren que esten entre comillas(simples, dobles).
+
+Si los parametros llevan espacios entre las palabras, utilizar '%20'. 
+    Ej: `localhost:8080/search?title="otras%20cronicas%20marcianas"`
 
 Sin especificar nombre y apellido la busqueda quedaria de la siguiente manera:
     `localhost:8080/search?title=""`
